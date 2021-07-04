@@ -4,14 +4,12 @@ import Heart from "react-animated-heart";
 
 
 export default function FavBtn(props) {
-    const {favorited, id, data} = props
+    const {favorited, id, title} = props
     const [favorite, setFavorite] = useState(favorited)
     const [isClick, setClick] = useState(false);
 
-    function addFavorite(id, favorite){
-      // fetch(`http://localhost:4000/rest/shows/${id}`, { method: 'PUT' })
-      //           .then(() => setFavorite(!favorite))
-      
+    function addFavorite(id, favorite, title){
+   
       fetch(`http://localhost:4000/rest/shows/${id}`, {
         headers: {
             'Accept': 'application/json',
@@ -19,26 +17,18 @@ export default function FavBtn(props) {
         },
         method: 'PUT',
         body: JSON.stringify({
-          title: "Game of Thrones",
+          title: title,
           user: {favorited: !favorite},
-          })}
-
-        
-        
-      )
+        })
+      })
       .then(() => setFavorite(!favorite))
       .then(() => setClick(!isClick))
-      .then(() => console.log(favorite))
-      .then(() => console.log(data))
     }
-
- 
-    const favBtnElement = (
+  // Je n'arrive pas à bien garder le coeur rouge après une recherche mais la valeur de favorited reste la bonne
+      return (
       <div class="fav-btn">
-        <Heart isClick={true} onClick={() => addFavorite(id, favorite)} />
+        <Heart isClick={isClick} onClick={() => addFavorite(id, favorite, title)} />
       </div>
-  )
-  return favBtnElement
-    
+       )
 }
 

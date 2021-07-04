@@ -1,17 +1,15 @@
 import Search from "./Search"
-import Results from "./Results"
 import SerieList from "./SerieList"
-
 import React, {useState, useEffect} from "react"
 
 
 
 export default function App(props){
     const [state, setState] = useState({
-        s: "",
-        results: []
+        s: ""
     })
     const [seriesData, setSeriesData] = useState([])
+    
    
 
     useEffect(() => {
@@ -24,18 +22,15 @@ export default function App(props){
         if (e.key === "Enter"){
             fetch('http://localhost:4000/rest/shows')
             .then(response => response.json())
-            .then(data => {
-                setSeriesData(data)
-                
-                let newList = []
+            .then(data => { 
 
-                newList = data.filter(serie => serie.title.includes(state.s))
+                data = data.filter(serie => serie.title.toLowerCase().includes(state.s.toLowerCase()))
             
-                let results = newList
+                setSeriesData(data)
 
-                setState(prevState => {
-                    return {...prevState, results : results}
-                })
+                // setState(prevState => {
+                //     return {...prevState, results : results}
+                // })
             })
         }
     }
@@ -47,21 +42,11 @@ export default function App(props){
             return { ...prevState, s: s}
         })
     }
+    return (
+    <div>
+    <Search handleInput = {handleInput} search = { search }/>
 
-    if (state.s === '') {
-        return (
-        <div>
-        <Search handleInput = {handleInput} search = { search }/>
-        {/* <SerieList series = { seriesData } /> */}
-        </div>
-        )
-    } else {
-        return(
-            <div>
-            <Search handleInput = {handleInput} search = { search }/>
-            <Results results={state.results} />
-            
-            </div>
-    )}
-
+    <SerieList series = { seriesData } />
+    </div>
+    )
 }

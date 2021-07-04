@@ -1,4 +1,5 @@
 import ReadMoreReact from 'read-more-react';
+import DeleteSerieBtn from './DeleteSerieBtn';
 import FavBtn from './FavBtn';
 
 
@@ -14,6 +15,7 @@ export default function Serie(props) {
   <div class="container">
     
     <img src= {serie.images.poster} alt="cover" class="cover" />
+    <DeleteSerieBtn id={serie.id} />
         
     <div class="hero">
       <img class="background" src = {serie.images.show} alt="banniere"/>
@@ -21,7 +23,7 @@ export default function Serie(props) {
       <div class="details">
       
         <div class="title1"> {serie.title} </div>
-        <FavBtn id={serie.id} favorited={serie.user.favorited} data = {serie}/>
+        <FavBtn id={serie.id} favorited={serie.user.favorited} title={serie.title}/>
         
 
 
